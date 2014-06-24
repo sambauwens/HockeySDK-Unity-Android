@@ -266,7 +266,8 @@ public class HockeyAppAndroid : MonoBehaviour {
 	/// Upload existing reports to HockeyApp and delete delete them locally.
 	/// </summary>
 	protected virtual IEnumerator SendLogs(List<string> logs){
-
+        
+		#if (UNITY_ANDROID && !UNITY_EDITOR)
 		string crashPath = HOCKEYAPP_CRASHESPATH;
 		string url = GetBaseURL() + crashPath.Replace("[APPID]", appID);
 
@@ -292,6 +293,9 @@ public class HockeyAppAndroid : MonoBehaviour {
 				}
 			}
 		}
+        #else
+        throw new Exception("This code should really not be executed when not on android");
+        #endif
 	}
 
 	/// <summary>
